@@ -35,9 +35,10 @@ public class UserService {
         return "Usuário atualizado com sucesso!";
     }
 
-    public String delete(String cpf) {
-        User user = userRepository.findByCpf(cpf);
-        String name = user.getName();
+    public String delete(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        String name = user.get().getName();
+        userRepository.deleteById(id);
         return "Usuário " + name + " deletado com sucesso!";
     }
 
