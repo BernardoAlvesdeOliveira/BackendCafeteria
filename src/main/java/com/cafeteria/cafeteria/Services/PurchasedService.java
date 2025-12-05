@@ -18,14 +18,14 @@ public class PurchasedService {
         this.insigniaService = insigniaService;
     }
 
-    public void purchasedProduct(String cpf) {
+    public String purchasedProduct(String cpf) {
         
         User user = userRepository.findByCpf(cpf);
         Integer volumeNow = user.getVolume();
         Integer volumeNew = volumeNow + 1;
         user.setVolume(volumeNew);
 
-        insigniaService.insigniaUpdate(cpf);
+        return insigniaService.insigniaUpdate(cpf);
     }
 
 }

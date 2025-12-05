@@ -18,10 +18,11 @@ public class InsigniaService {
         this.userRepository = userRepository;
     }
 
-    public void insigniaUpdate(String cpf) {
+    public String insigniaUpdate(String cpf) {
         
         User user = userRepository.findByCpf(cpf);
         String insigniaNow = user.getInsignia();
+        String name = user.getName();
         Integer userVolume = user.getVolume();
 
         if (insigniaNow != null && userVolume == 10) {
@@ -31,6 +32,8 @@ public class InsigniaService {
                     user.setInsignia(null);
                     user.setVolume(0);
                     // ADICIONAR EVENTO PARA INFORMAR DA ATUALIZAÇÃO NAS COLUNAS ACIMA
+
+                    return "O usuário " + name + " alcançou a insignia diamante!";
                 }
 
                 if (insigniaNow == insignia) {
@@ -39,9 +42,12 @@ public class InsigniaService {
                     user.setInsignia(insigniaNext);
                     user.setVolume(0);
                     // ADICIONAR EVENTO PARA INFORMAR DA ATUALIZAÇÃO NAS COLUNAS ACIMA
+
+                    return "O usuário " + name + " alcançou a insignia " + insigniaNext + "!";
                 }
             }
         }
+        return "Usuário " + name + " ganhou mais um ponto em sua conta";
     }
 
 }
