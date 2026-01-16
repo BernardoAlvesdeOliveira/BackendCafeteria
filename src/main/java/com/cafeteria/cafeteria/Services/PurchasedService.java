@@ -8,14 +8,11 @@ import com.cafeteria.cafeteria.Repository.UserRepository;
 @Service
 public class PurchasedService {
     
-    private UserRepository userRepository;
-    public PurchasedService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    private InsigniaService insigniaService;
-    public PurchasedService (InsigniaService insigniaService) {
+    private final UserRepository userRepository;
+    private final InsigniaService insigniaService;
+    public PurchasedService (InsigniaService insigniaService, UserRepository userRepository) {
         this.insigniaService = insigniaService;
+        this.userRepository = userRepository;
     }
 
     public String purchasedProduct(String cpf) {
