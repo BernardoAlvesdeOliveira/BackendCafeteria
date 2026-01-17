@@ -34,3 +34,6 @@ build/
 
 ### Variáveis de Ambiente ###
 .env
+
+### CONFIGURAÇÕES DO application.properties ###
+src/main/resources/application.properties

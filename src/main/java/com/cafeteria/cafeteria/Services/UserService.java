@@ -17,8 +17,8 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
     
-    private final UserRepository userRepository;
-    private final SecurityConfig securityConfig;
+    private static UserRepository userRepository;
+    private static SecurityConfig securityConfig;
     
     public UserService(
         UserRepository userRepository,
@@ -28,17 +28,22 @@ public class UserService {
         this.securityConfig = securityConfig;
     }
 
-    public User create(UserRequestDTO dto) {
-        
-        User user = new User();
-        user.setCpf(dto.getCpf());
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPasswordHash(securityConfig.passwordEncoder().encode(dto.getPassword()));
-        user.setVolume(0);
-        user.setInsignia("Bronze");
-
-        return userRepository.save(user);
+    public boolean create(UserRequestDTO dto) {
+        User userExist = userRepository.findByCpf(dto.getCpf());
+        if (userExist != null) { return false; }
+        try {
+            User user = new User();
+            user.setCpf(dto.getCpf());
+            user.setName(dto.getName());
+            user.setEmail(dto.getEmail());
+            user.setPasswordHash(securityConfig.passwordEncoder().encode(dto.getPassword()));
+            user.setVolume(0);
+            user.setInsignia("Bronze");
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<User> read() {

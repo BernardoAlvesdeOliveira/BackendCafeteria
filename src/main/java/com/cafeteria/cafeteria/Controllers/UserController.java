@@ -1,5 +1,7 @@
 package com.cafeteria.cafeteria.Controllers;
 
+import com.cafeteria.cafeteria.DTOs.LoginDTO.LoginRequestDTO;
+import com.cafeteria.cafeteria.Services.AccountService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,15 +31,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UserController {
     
     // UserService
-    private UserService userService;
-    public UserController(UserService userService) {
+    private static UserService userService;
+    private static AccountService accountService;
+    public UserController(
+            UserService userService,
+            AccountService accountService
+    ) {
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO dto) {
-        User user = userService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponseDTO(user));
+    public boolean createUser(@RequestBody @Valid UserRequestDTO dto) {
+        boolean user = userService.create(dto);
+        return user;
     }
 
     @GetMapping("/read")
@@ -63,5 +70,11 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         return userService.delete(id);
+    }
+
+    // VALIDATION ACCOUNT
+    @PostMapping("/login")
+    public boolean loginAccount(@RequestBody @Valid LoginRequestDTO request) {
+        return accountService.validateEmailAndPassword(request.getEmail(), request.getPassword());
     }
 }
