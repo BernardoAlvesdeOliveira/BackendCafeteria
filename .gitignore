@@ -37,3 +37,6 @@ build/
 
 ### CONFIGURAÇÕES DO application.properties ###
 src/main/resources/application.properties
+
+### Logs ###
+logs/
