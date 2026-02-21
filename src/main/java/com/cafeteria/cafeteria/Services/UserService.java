@@ -16,7 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
-    
+
     private static UserRepository userRepository;
     private static SecurityConfig securityConfig;
     
@@ -29,8 +29,10 @@ public class UserService {
     }
 
     public boolean create(UserRequestDTO dto) {
-        User userExist = userRepository.findByCpf(dto.getCpf());
-        if (userExist != null) { return false; }
+        User userCpf = userRepository.findByCpf(dto.getCpf());
+        Optional<User> userEmail = userRepository.findByEmail(dto.getEmail());
+        if (userCpf != null || userEmail.isPresent()) { return false; }
+
         try {
             User user = new User();
             user.setCpf(dto.getCpf());

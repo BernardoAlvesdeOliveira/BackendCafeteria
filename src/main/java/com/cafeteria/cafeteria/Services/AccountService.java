@@ -25,17 +25,23 @@ public class AccountService {
     }
 
     // AUTH SIMPLE OF EMAIL AND PASSWORD
-    public boolean validateEmailAndPassword(String email, String password) {
+    public boolean validateEmailAndPassword(String email, String senha) {
 
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isEmpty()) {
-            logger.debug("Usuário não encontrado para o email: {}", email);
             return false;
         }
 
         User user = userOptional.get();
-        boolean pw = passwordEncoder.matches(password, user.getPasswordHash());
+        boolean pw = passwordEncoder.matches(senha, user.getPasswordHash());
+
+        System.out.println("Senha recebida: " + senha);
+        System.out.println("Hash salvo: " + user.getPasswordHash());
+        System.out.println("Matches: " +
+                passwordEncoder.matches(senha, user.getPasswordHash())
+        );
+
 
         return pw;
     }

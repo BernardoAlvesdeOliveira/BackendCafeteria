@@ -2,14 +2,14 @@ package com.cafeteria.cafeteria.DTOs.LoginDTO;
 
 public class LoginRequestDTO {
     private String email;
-    private String password;
+    private String senha;
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String senha) {
+        this.senha = senha;
     }
 
     public String getEmail() {
